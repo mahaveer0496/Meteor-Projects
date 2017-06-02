@@ -7,6 +7,8 @@ class App extends Component {
     super(props);
     this.submitHandler = this.submitHandler.bind(this);
     this.deletePlayer = this.deletePlayer.bind(this);
+    this.incrementScore = this.incrementScore.bind(this);
+    this.decrementScore = this.decrementScore.bind(this);
   }
 
   submitHandler(event) {
@@ -21,6 +23,20 @@ class App extends Component {
       this.refs.player.value = '';
     }
   }
+  incrementScore(id, score) {
+    Players.update({
+      _id: id
+    }, {
+        $set: { score: score + 1 }
+      })
+  }
+  decrementScore(id, score) {
+    Players.update({
+      _id: id
+    }, {
+        $set: { score: score - 1 }
+      })
+  }
   deletePlayer(id) {
     Players.remove({ _id: id })
   }
@@ -29,7 +45,14 @@ class App extends Component {
       <div className="container">
         {this.props.players.map(player => (
           <p key={player._id}>
+            <button onClick={() => this.incrementScore(player._id, player.score)}>
+              +
+            </button>
+            <button onClick={() => this.decrementScore(player._id, player.score)}>
+              -
+            </button>
             {player.name}
+            {player.score}
             <button onClick={() => this.deletePlayer(player._id)}>
               Delete
             </button>
