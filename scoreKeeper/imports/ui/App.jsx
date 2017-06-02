@@ -6,6 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.submitHandler = this.submitHandler.bind(this);
+    this.deletePlayer = this.deletePlayer.bind(this);
   }
 
   submitHandler(event) {
@@ -20,18 +21,25 @@ class App extends Component {
       this.refs.player.value = '';
     }
   }
-
+  deletePlayer(id) {
+    Players.remove({ _id: id })
+  }
   render() {
     return (
       <div className="container">
         {this.props.players.map(player => (
-          <p key={player._id}>{player.name}<button>Delete</button></p>
-          
+          <p key={player._id}>
+            {player.name}
+            <button onClick={() => this.deletePlayer(player._id)}>
+              Delete
+            </button>
+          </p>
+
         ))}
         <form onSubmit={this.submitHandler}>
-          <input type="text" name="player" ref="player" />          
+          <input type="text" name="player" ref="player" />
           <input type="submit" />
-        </form>        
+        </form>
       </div>
     );
   }
