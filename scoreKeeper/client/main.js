@@ -15,7 +15,7 @@ import {
 
 Meteor.startup(() => {
   Tracker.autorun(() => {
-    var players = Players.find().fetch();
+    var players = Players.find({}, { sort: { score: 1 } }).fetch();
     console.log(players);
     render(<App players={players} />, document.getElementById('app'));
   })

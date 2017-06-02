@@ -24,18 +24,14 @@ class App extends Component {
     }
   }
   incrementScore(id, score) {
-    Players.update({
-      _id: id
-    }, {
-        $set: { score: score + 1 }
-      })
+    Players.update(id, {
+      $set: { score: score + 1 }
+    })
   }
   decrementScore(id, score) {
-    Players.update({
-      _id: id
-    }, {
-        $set: { score: score - 1 }
-      })
+    Players.update(id, {
+      $set: { score: score - 1 }
+    })
   }
   deletePlayer(id) {
     Players.remove({ _id: id })
