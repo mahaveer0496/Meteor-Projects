@@ -1,53 +1,42 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { createContainer } from 'meteor/react-meteor-data';
 import FlipMove from 'react-flip-move';
-import { Players } from './../api/players.js';
-class App extends Component {
+import { Players as PlayersFromDB} from './../api/players.js'; //DB Collection
+
+class Players extends Component {
   constructor(props) {
     super(props);
-    this.submitHandler = this.submitHandler.bind(this);
     this.deletePlayer = this.deletePlayer.bind(this);
     this.incrementScore = this.incrementScore.bind(this);
     this.decrementScore = this.decrementScore.bind(this);
   }
 
-  submitHandler(event) {
-    event.preventDefault();
-    let name = this.refs.player.value;
-    let score = 0;
-    if (name) {
-      Players.insert({
-        name,
-        score
-      });
-      this.refs.player.value = '';
-    }
-  }
   incrementScore(id, score) {
-    Players.update(id, {
+    PlayersFromDB.update(id, {
       $set: { score: score + 1 }
     })
   }
   decrementScore(id, score) {
-    Players.update(id, {
+    PlayersFromDB.update(id, {
       $set: { score: score - 1 }
     })
   }
   deletePlayer(id) {
-    Players.remove({ _id: id })
+    PlayersFromDB.remove({ _id: id })
   }
   render() {
+    console.log(this.props.players);
     return (
-      <div className="container">
+      <div>
         <FlipMove maintainContainerHeight={true}>
           {this.props.players.map(player => (
             <p key={player._id}>
               <button onClick={() => this.incrementScore(player._id, player.score)}>
                 +
-            </button>
+              </button>
               <button onClick={() => this.decrementScore(player._id, player.score)}>
                 -
-            </button>
+              </button>
               {player.name}
               {player.score}
               <button onClick={() => this.deletePlayer(player._id)}>
@@ -57,13 +46,13 @@ class App extends Component {
 
           ))}
         </FlipMove>
-        <form onSubmit={this.submitHandler}>
-          <input type="text" name="player" ref="player" />
-          <input type="submit" />
-        </form>
       </div>
     );
   }
 }
 
-export default App;
+export default createContainer(() => {
+  return {
+    players: PlayersFromDB.find({}, { sort: { score: -1 } }).fetch()
+  };
+}, Players);

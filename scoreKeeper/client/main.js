@@ -8,15 +8,14 @@ import {
 import {
   Tracker
 } from 'meteor/tracker';
-import App from '../imports/ui/App.jsx';
+import App from '../imports/components/App.jsx';
 import {
   Players
 } from './../imports/api/players';
 
 Meteor.startup(() => {
   Tracker.autorun(() => {
-    var players = Players.find({}, { sort: { score: -1 } }).fetch();
-    console.log(players);
-    render(<App players={players} />, document.getElementById('app'));
+    // var players = Players.find({}, { sort: { score: -1 } }).fetch();
+    render(<App />, document.getElementById('app'));
   })
 });
