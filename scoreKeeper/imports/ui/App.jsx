@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import FlipMove from 'react-flip-move';
 import { Players } from './../api/players.js';
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -39,22 +39,24 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        {this.props.players.map(player => (
-          <p key={player._id}>
-            <button onClick={() => this.incrementScore(player._id, player.score)}>
-              +
+        <FlipMove maintainContainerHeight={true}>
+          {this.props.players.map(player => (
+            <p key={player._id}>
+              <button onClick={() => this.incrementScore(player._id, player.score)}>
+                +
             </button>
-            <button onClick={() => this.decrementScore(player._id, player.score)}>
-              -
+              <button onClick={() => this.decrementScore(player._id, player.score)}>
+                -
             </button>
-            {player.name}
-            {player.score}
-            <button onClick={() => this.deletePlayer(player._id)}>
-              Delete
+              {player.name}
+              {player.score}
+              <button onClick={() => this.deletePlayer(player._id)}>
+                Delete
             </button>
-          </p>
+            </p>
 
-        ))}
+          ))}
+        </FlipMove>
         <form onSubmit={this.submitHandler}>
           <input type="text" name="player" ref="player" />
           <input type="submit" />
