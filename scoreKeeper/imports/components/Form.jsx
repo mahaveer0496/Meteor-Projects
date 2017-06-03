@@ -15,9 +15,9 @@ const Form = () => {
   }
   return (
     <div>
-      <form onSubmit={submitHandler}>
-        <input type="text" name="player" ref={player => { name = player }} />
-        <input type="submit" />
+      <form className="form" onSubmit={submitHandler} >
+        <input className="form__input" type="text" name="player" ref={player => { name = player }} placeholder="Add Player"/>
+        <input className="form__button" type="submit" />
       </form>
     </div>
   );

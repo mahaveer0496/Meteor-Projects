@@ -1,0 +1,10 @@
+@import './modules/form';
+@import './modules/players';
+*{
+  box-sizing: border-box;
+}
+.container {
+  width: 75%;
+  margin: 100px auto;
+  padding: 20px 40px;
+}
